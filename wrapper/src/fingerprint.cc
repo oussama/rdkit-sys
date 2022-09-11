@@ -1,6 +1,7 @@
 #include "rust/cxx.h"
 #include <DataStructs/ExplicitBitVect.h>
 #include <GraphMol/Fingerprints/Fingerprints.h>
+#include <GraphMol/Fingerprints/MACCS.h>
 
 namespace RDKit {
     std::shared_ptr<ExplicitBitVect> fingerprint_mol(std::shared_ptr<ROMol> mol) {
@@ -19,4 +20,9 @@ namespace RDKit {
         std::vector<uint64_t> *bytes_heap = new std::vector<uint64_t>(bytes);
         return std::unique_ptr<std::vector<uint64_t>>(bytes_heap);
     }
+
+    std::shared_ptr<ExplicitBitVect> maccs(std::shared_ptr<ROMol> mol) {
+        return std::shared_ptr<ExplicitBitVect>(MACCSFingerprints::getFingerprintAsBitVect(*mol));
+    }
+
 }
