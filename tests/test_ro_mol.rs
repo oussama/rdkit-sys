@@ -47,3 +47,10 @@ fn parse_without_sanitize_test() {
         "AtomValenceException"
     );
 }
+
+#[test]
+fn test_ro_mol_draw() {
+    cxx::let_cxx_string!(smile = "c1ccccc1CCCCCCCC");
+    let romol = rdkit_sys::ro_mol_ffi::smiles_to_mol(&smile).unwrap();
+    rdkit_sys::ro_mol_ffi::draw_mol(romol);
+}
