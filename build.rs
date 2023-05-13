@@ -109,6 +109,10 @@ fn main() {
         "SmilesParse",
         "Subgraphs",
         "SubstructMatch",
+        "MolDraw2D",
+        "MolTransforms",
+        "Depictor",
+        "CoordGen",
     ] {
         if use_conda {
             println!("cargo:rustc-link-lib=dylib=RDKit{}", lib);
@@ -116,6 +120,8 @@ fn main() {
             println!("cargo:rustc-link-lib=static=RDKit{}_static", lib);
         }
     }
+
+    println!("cargo:rustc-link-lib=dylib=freetype");
 
     if use_conda {
         println!("cargo:rustc-link-lib=dylib=boost_serialization");

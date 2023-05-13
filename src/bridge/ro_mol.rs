@@ -28,6 +28,6 @@ pub mod ffi {
         pub fn detect_chemistry_problems(mol: SharedPtr<ROMol>) -> UniquePtr<CxxVector<CxxString>>;
         // pub fn mol_sanitize_exception_type() -> String;
 
-        pub fn draw_mol(mol: SharedPtr<ROMol>);
+        pub fn draw_mol(mol: SharedPtr<ROMol>) -> String;
     }
 }

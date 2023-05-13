@@ -7,7 +7,10 @@
 #include <DataStructs/ExplicitBitVect.h>
 #include <GraphMol/Fingerprints/Fingerprints.h>
 #include <GraphMol/MolStandardize/Tautomer.h>
+#include <GraphMol/RDKitBase.h>
+#include <GraphMol/MolDraw2D/MolDraw2D.h>
 #include <GraphMol/MolDraw2D/MolDraw2DSVG.h>
+#include <GraphMol/MolDraw2D/MolDraw2DUtils.h>
 
 namespace RDKit {
     std::shared_ptr<ROMol> copy_mol(std::shared_ptr<ROMol> mol);
@@ -20,5 +23,5 @@ namespace RDKit {
 
     std::unique_ptr<std::vector<std::string>> detect_chemistry_problems(std::shared_ptr<ROMol> mol);
 
-    void draw_mol(std::shared_ptr<ROMol> mol);
+    rust::String draw_mol(std::shared_ptr<ROMol> mol);
 }

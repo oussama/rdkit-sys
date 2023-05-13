@@ -6,7 +6,10 @@
 #include <GraphMol/Fingerprints/Fingerprints.h>
 #include <GraphMol/MolStandardize/Tautomer.h>
 #include <GraphMol/MolOps.h>
+#include <GraphMol/RDKitBase.h>
+#include <GraphMol/MolDraw2D/MolDraw2D.h>
 #include <GraphMol/MolDraw2D/MolDraw2DSVG.h>
+#include <GraphMol/MolDraw2D/MolDraw2DUtils.h>
 
 namespace RDKit {
     using ExplicitBitVect = ::ExplicitBitVect;
@@ -49,12 +52,15 @@ namespace RDKit {
         return std::unique_ptr<std::vector<std::string>>(get_types);
     }
 
-    void draw_mol(std::shared_ptr<ROMol> mol) {
-        RDKit::MolDraw2DSVG drawer(300, 300);
-        drawer.drawMolecule(*mol);
+    rust::String draw_mol(std::shared_ptr<ROMol> mol) {
+        RDKit::MolDraw2DSVG drawer(500, 400, -1, -1, true);
+        drawer.drawOptions().additionalAtomLabelPadding = 0.05;
+        drawer.drawOptions().explicitMethyl = true;
+        drawer.drawOptions().padding = 0.0;
+        MolDraw2DUtils::prepareAndDrawMolecule(drawer, *mol);
         drawer.finishDrawing();
-        //char *buffer = new char[PAGE_SIZE];
-        std::cout << drawer.getDrawingText() << std::endl;
+        rust::String data = drawer.getDrawingText();
+        return data;
     }
 
 }

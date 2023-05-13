@@ -50,7 +50,7 @@ fn parse_without_sanitize_test() {
 
 #[test]
 fn test_ro_mol_draw() {
-    cxx::let_cxx_string!(smile = "c1ccccc1CCCCCCCC");
+    cxx::let_cxx_string!(smile = "O=[N+]([O-])c1cc([N+](=O)[O-])c2ccccc2c1O");
     let romol = rdkit_sys::ro_mol_ffi::smiles_to_mol(&smile).unwrap();
-    rdkit_sys::ro_mol_ffi::draw_mol(romol);
+    println!("{}", rdkit_sys::ro_mol_ffi::draw_mol(romol));
 }
