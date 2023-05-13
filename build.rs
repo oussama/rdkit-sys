@@ -37,6 +37,13 @@ fn main() {
     let brew_lib_path = format!("{}/lib", library_root);
     let include = format!("{}/include", library_root);
     let rdkit_include = format!("{}/include/rdkit", library_root);
+    let linux_boost_lib_path = format!(
+        "{}/lib/{}-{}-gnu",
+        library_root,
+        std::env::consts::ARCH,
+        std::env::consts::OS
+    );
+    let platform = std::env::consts::OS;
 
     let dir = std::fs::read_dir("src/bridge").unwrap();
     let rust_files = dir
@@ -83,13 +90,14 @@ fn main() {
         .include(include)
         .include(rdkit_include)
         .include(std::env::var("CARGO_MANIFEST_DIR").unwrap())
-        .flag("-std=c++14")
+        .flag("-std=c++17")
         .warnings(false)
         // rdkit has warnings that blow up our build. we could enumerate all those warnings and tell
         // the compiler to allow them... .warnings_into_errors(true)
         .compile("rdkit");
 
     println!("cargo:rustc-link-search=native={}", brew_lib_path);
+    println!("cargo:rustc-link-search=native={}", linux_boost_lib_path);
     // println!("cargo:rustc-link-lib=static=c++");
 
     for lib in &[
@@ -127,5 +135,9 @@ fn main() {
         println!("cargo:rustc-link-lib=dylib=boost_serialization");
     } else {
         println!("cargo:rustc-link-lib=static=boost_serialization");
+    }
+
+    if platform == "linux" {
+        println!("cargo:rustc-link-lib=RDKitcoordgen");
     }
 }
